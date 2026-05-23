@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patas & Laços | Catálogo de Adoção</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Garantindo que os estilos do catálogo estilo OLX fiquem isolados aqui */
+        .search-filter-section {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px auto;
+            max-width: 1200px;
+            box-shadow: 0 10px 30px rgba(26, 77, 140, 0.05);
+        }
+        .search-box {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 2px solid #ddd;
+            font-size: 1rem;
+            font-family: 'IBM Plex Sans', sans-serif;
+            outline: none;
+            transition: 0.3s;
+        }
+        .search-box input:focus { border-color: var(--primary); }
+        .filters-box { display: flex; gap: 15px; flex-wrap: wrap; }
+        .filter-select {
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 2px solid #ddd;
+            background: white;
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--text);
+            cursor: pointer;
+            outline: none;
+        }
+        .filter-select:focus { border-color: var(--primary); }
+        .grid-pets {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .olx-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px var(--shadow);
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s;
+        }
+        .olx-card:hover { transform: translateY(-5px); }
+        .olx-img { width: 100%; height: 240px; object-fit: cover; }
+        .olx-info { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+        .olx-tag-cidade {
+            background: rgba(46, 125, 50, 0.1);
+            color: var(--secondary);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            align-self: flex-start;
+            margin-bottom: 10px;
+        }
+        .olx-detalhes {
+            font-size: 0.8rem;
+            color: #666;
+            margin: 10px 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 60px 20px;
+            color: #888;
+            font-size: 1.2rem;
+        }
+        .btn-voltar { border-color: var(--primary); background: transparent; color: var(--primary); }
+        .btn-voltar:hover { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <nav class="nav-container">
+        <div class="logo-area">
+            <img src="img/logo.png" alt="Patas & Laços" class="logo-img">
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-item btn-voltar">⬅ Voltar ao Início</a></li>
+            <li><a href="doar.html" class="nav-item nav-btn" target="_blank">Quero Doar</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container" style="padding: 20px;">
+
+    <section class="search-filter-section">
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Busque por nome, raça, cidade ou qualquer detalhe..." oninput="filtrarLocalmente()">
+        </div>
+        <div class="filters-box">
+            <select id="filter-especie" class="filter-select" onchange="filtrarLocalmente()">
+                <option value="">Todas as Espécies</option>
+                <option value="Cachorro">Cachorros</option>
+                <option value="Gato">Gatos</option>
+            </select>
+            <select id="filter-idade" class="filter-select" onchange="filtrarLocalmente()">
+                <option value="">Todas as Idades</option>
+                <option value="Filhote">Filhote</option>
+                <option value="Adulto">Adulto</option>
+                <option value="Idoso">Idoso</option>
+            </select>
+        </div>
+    </section>
+
+    <section class="grid-pets" id="pets-catalogo">
+    </section>
+
+</main>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Patas & Laços - Portal de Adoção e Cuidados.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/data.js"></script>
+
+<script>
+    // Lógica autoexecutável e isolada para o catálogo
+    function renderizarTela(lista) {
+        const container = document.getElementById('pets-catalogo');
+        if (!container) return;
+
+        container.innerHTML = "";
+
+        if (!lista || lista.length === 0) {
+            container.innerHTML = `
+                <div class="no-results">
+                    <p>🔍 Nenhum amigo foi localizado com esses termos. Tente de outra forma!</p>
+                </div>`;
+            return;
+        }
+
+        lista.forEach(pet => {
+            const card = `
+                <article class="olx-card">
+                    <a href="detalhes.html?id=${pet.id}" target="_blank">
+                        <img src="${pet.foto}" class="olx-img" alt="${pet.nome}">
+                    </a>
+                    <div class="olx-info">
+                        <span class="olx-tag-cidade">📍 ${pet.cidade}</span>
+                        <h3 style="font-family: 'Montserrat', sans-serif; color: var(--primary); margin-bottom: 10px;">
+                            ${pet.nome.toUpperCase()} ${pet.especie === 'Cachorro' ? '🐶' : '🐱'}
+                        </h3>
+
+                        <div class="olx-detalhes">
+                            <p>🧬 <strong>Raça:</strong> ${pet.raca}</p>
+                            <p>🎂 <strong>Idade:</strong> ${pet.idade}</p>
+                            <p>⚖️ <strong>Peso:</strong> ${pet.peso}</p>
+                            <p>✂️ <strong>Castrado:</strong> ${pet.castrado}</p>
+                        </div>
+
+                        <a href="detalhes.html?id=${pet.id}" target="_blank" class="btn-main" style="margin-top:auto; width:100%; text-align:center; text-decoration:none; display:block; line-height:2.5;">
+                            Conhecer História
+                        </a>
+                    </div>
+                </article>
+            `;
+            container.innerHTML += card;
+        });
+    }
+
+    function filtrarLocalmente() {
+        const termo = document.getElementById('search-input').value.toLowerCase().trim();
+        const especie = document.getElementById('filter-especie').value;
+        const idade = document.getElementById('filter-idade').value;
+
+        // "pets" vem diretamente do arquivo js/data.js
+        const filtrados = pets.filter(pet => {
+            const bateEspecie = especie === "" || pet.especie === especie;
+            const bateIdade = idade === "" || pet.idade === idade;
+
+            const textoObjeto = JSON.stringify(pet).toLowerCase();
+            const bateTexto = termo === "" || textoObjeto.includes(termo);
+
+            return bateEspecie && bateIdade && bateTexto;
+        });
+
+        renderizarTela(filtrados);
+    }
+
+    // Inicialização forçada assim que a página estiver pronta
+    window.addEventListener('load', () => {
+        if (typeof pets !== 'undefined') {
+            renderizarTela(pets);
+        } else {
+            document.getElementById('pets-catalogo').innerHTML = '<p style="text-align:center; color:red;">Erro: O arquivo js/data.js não pôde ser lido.</p>';
+        }
+    });
+</script>
+</body>
+</html>

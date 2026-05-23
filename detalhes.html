@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patas & Laços | Conheça o Pet</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .detalhes-container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: var(--white);
+            border-radius: 25px;
+            box-shadow: 0 15px 40px var(--shadow);
+            overflow: hidden;
+            padding: 40px;
+        }
+        .detalhes-flex {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .detalhes-foto {
+            flex: 1;
+            min-width: 300px;
+        }
+        .detalhes-foto img {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .detalhes-conteudo {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .info-badge-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+            background: #f8f5f0;
+            padding: 20px;
+            border-radius: 15px;
+        }
+        .info-item {
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <nav class="nav-container">
+        <div class="logo-area">
+            <img src="img/logo.png" alt="Patas & Laços" class="logo-img">
+        </div>
+        <ul class="nav-links">
+            <li><a href="catalogo.html" class="nav-item">⬅ Voltar ao Catálogo</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container">
+    <div class="detalhes-container" id="conteudo-pet">
+    </div>
+</main>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Patas & Laços - Portal de Adoção e Cuidados.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script>
+    // Script focado em ler o ID da URL e carregar o pet correto
+    window.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const idPet = parseInt(params.get('id'));
+
+        const pet = pets.find(p => p.id === idPet);
+        const container = document.getElementById('conteudo-pet');
+
+        if (!pet) {
+            container.innerHTML = `<h2>Pet não encontrado!</h2><a href="catalogo.html" class="btn-main">Voltar ao catálogo</a>`;
+            return;
+        }
+
+        // Altera o título da aba do navegador dinamicamente
+        document.title = `Patas & Laços | Conheça o ${pet.nome}`;
+
+        container.innerHTML = `
+            <div class="detalhes-flex">
+                <div class="detalhes-foto">
+                    <img src="${pet.foto}" alt="${pet.nome}">
+                </div>
+                <div class="detalhes-conteudo">
+                    <span style="color: var(--secondary); font-weight: bold; font-size: 0.9rem;">📍 ${pet.cidade}</span>
+                    <h1 style="font-family: 'Montserrat'; color: var(--primary); margin: 10px 0 20px; font-size: 2.5rem;">${pet.nome.toUpperCase()}</h1>
+
+                    <h3 style="font-family: 'Montserrat'; color: var(--text);">Minha História</h3>
+                    <p style="font-family: 'IBM Plex Sans'; line-height: 1.6; color: #444; margin-bottom: 20px; text-align: justify;">${pet.historia}</p>
+
+                    <div class="info-badge-grid">
+                        <div class="info-item">🧬 <strong>Raça:</strong> ${pet.raca}</div>
+                        <div class="info-item">🎂 <strong>Idade:</strong> ${pet.idade}</div>
+                        <div class="info-item">⚖️ <strong>Peso:</strong> ${pet.peso}</div>
+                        <div class="info-item">✂️ <strong>Castrado:</strong> ${pet.castrado}</div>
+                        <div class="info-item">💉 <strong>Vacinado:</strong> ${pet.vacinado}</div>
+                        <div class="info-item">🐾 <strong>Espécie:</strong> ${pet.especie}</div>
+                    </div>
+
+                    <a href="triagem.html" class="btn-main" style="text-decoration: none; text-align: center; display: block; line-height: 3; margin-top: 15px;">Quero me inscrever para adoção</a>
+                </div>
+            </div>
+        `;
+    });
+</script>
+</body>
+</html>

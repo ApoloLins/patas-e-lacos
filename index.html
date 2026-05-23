@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patas & Laços | Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Fontes profissionais -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- MODAL (POP-UP) - O conteúdo é injetado pelo main.js -->
+<div id="modal-pet" class="modal">
+    <div class="modal-content">
+        <!-- O JavaScript preencherá este espaço dinamicamente -->
+    </div>
+</div>
+
+<header class="main-header">
+    <nav class="nav-container">
+        <div class="logo-area">
+            <img src="img/logo.png" alt="Patas & Laços" class="logo-img">
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-item">Início</a></li>
+            <li><a href="catalogo.html" class="nav-item">Adotar</a></li>
+            <li><a href="doar.html" class="nav-item nav-btn" target="_blank">Quero Doar</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Seção Inicial (Hero) -->
+<section class="hero-banner">
+    <div class="hero-text">
+        <h1>Unindo propósitos, <br><span>atando laços.</span></h1>
+        <p>A plataforma que profissionaliza o primeiro contato entre resgatadores e adotantes.</p>
+        <div class="hero-actions">
+            <a href="catalogo.html" class="btn-main">Encontrar um amigo</a>
+        </div>
+    </div>
+</section>
+
+<main class="container">
+    <section class="destaques-section">
+        <div class="section-title-container">
+            <span class="section-subtitle">Conheça alguns de nossos</span>
+            <h2 class="section-title-modern">Amigos em Destaque</h2>
+            <div class="title-decorator">
+                <span class="line"></span>
+                <span class="pata">🐾</span>
+                <span class="line"></span>
+            </div>
+        </div>
+
+        <!-- Container onde o JavaScript vai carregar os animais do data.js -->
+        <div class="carrossel-container">
+            <button class="seta-carrossel seta-esq" onclick="scrollCarrossel(-1)">&#10094;</button>
+
+            <div id="pets-destaque">
+                <!-- O JS continuará injetando os cards aqui -->
+            </div>
+
+            <button class="seta-carrossel seta-dir" onclick="scrollCarrossel(1)">&#10095;</button>
+        </div>
+    </section>
+</main>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="footer-info">
+            <h3>Educação e Guarda Responsável</h3>
+            <p>Diferente de sites de anúncios comuns, focamos no <strong>perfil comportamental</strong> para garantir que o interessado realmente tenha o perfil para aquele pet específico.</p>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Patas & Laços - Portal de Adoção e Cuidados. Todos os direitos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts: A ordem importa! Primeiro os dados, depois a lógica -->
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
