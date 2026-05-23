@@ -90,6 +90,19 @@
         }
         .btn-voltar { border-color: var(--primary); background: transparent; color: var(--primary); }
         .btn-voltar:hover { background: var(--primary); color: white; }
+
+        /* Responsividade para o Telemóvel */
+        @media (max-width: 768px) {
+            .search-filter-section { padding: 15px; margin: 15px; }
+            .search-box { flex-direction: column; gap: 10px; }
+            .search-box input { padding: 12px 20px; font-size: 0.9rem; }
+            .filters-box { flex-direction: column; gap: 10px; }
+            .filter-select { width: 100%; padding: 12px; }
+            .grid-pets { grid-template-columns: 1fr; gap: 20px; padding: 0 15px; margin: 20px auto; }
+            .olx-img { height: 200px; }
+            .olx-info { padding: 15px; }
+            .olx-detalhes { grid-template-columns: 1fr; gap: 8px; }
+        }
     </style>
 </head>
 <body>
@@ -106,11 +119,10 @@
     </nav>
 </header>
 
-<main class="container" style="padding: 20px;">
-    
+<main class="container" style="padding: 10px;">
     <section class="search-filter-section">
         <div class="search-box">
-            <input type="text" id="search-input" placeholder="Busque por nome, raça, cidade ou qualquer detalhe..." oninput="filtrarLocalmente()">
+            <input type="text" id="search-input" placeholder="Busque por nome, raça, cidade ou detalhe..." oninput="filtrarLocalmente()">
         </div>
         <div class="filters-box">
             <select id="filter-especie" class="filter-select" onchange="filtrarLocalmente()">
@@ -129,7 +141,6 @@
 
     <section class="grid-pets" id="pets-catalogo">
         </section>
-
 </main>
 
 <footer class="main-footer">
@@ -141,86 +152,21 @@
 </footer>
 
 <script>
-    // BANCO DE DADOS EMBUTIDO DIRETAMENTE PARA EVITAR ERROS DE LEITURA HTTP
     const petsDadosLocais = [
-        {
-            id: 1,
-            nome: "Baleia",
-            especie: "Cachorro",
-            peso: "25kg",
-            idade: "Adulto",
-            raca: "Vira-lata",
-            castrado: "Sim",
-            vacinado: "Sim",
-            cidade: "Jaboatão",
-            foto: "img/baleia.jpg",
-            historia: "Baleia foi encontrado próximo à PGE e busca um lar protetor."
-        },
-        {
-            id: 2,
-            nome: "Fubá",
-            especie: "Gato",
-            peso: "4kg",
-            idade: "Filhote",
-            raca: "SRD",
-            castrado: "Sim",
-            vacinado: "Sim",
-            cidade: "Recife",
-            foto: "img/fuba.jpg",
-            historia: "Fubá é um gatinho dócil que adora brincar com bolinhas de lã."
-        },
-        {
-            id: 3,
-            nome: "Pipoca",
-            especie: "Cachorro",
-            peso: "8kg",
-            idade: "Adulto",
-            raca: "Poodle",
-            castrado: "Sim",
-            vacinado: "Sim",
-            cidade: "Jaboatão",
-            foto: "img/pipoca.jpg",
-            historia: "Pipoca é animada e precisa de uma família que goste de passeios."
-        },
-        {
-            id: 4,
-            nome: "Batata",
-            especie: "Gato",
-            peso: "12kg",
-            idade: "Idoso",
-            raca: "Exótico",
-            castrado: "Sim",
-            vacinado: "Sim",
-            cidade: "Olinda",
-            foto: "img/batata.jpg",
-            historia: "Batata é calmo, adora tirar sonecas ao sol e é muito leal."
-        },
-        {
-            id: 5,
-            nome: "Mirtilo",
-            especie: "Cachorro",
-            peso: "5kg",
-            idade: "Adulto",
-            raca: "Siamês",
-            castrado: "Sim",
-            vacinado: "Sim",
-            cidade: "Recife",
-            foto: "img/mirtilo.jpg",
-            historia: "Mirtilo é observador e independente, ideal para apartamentos."
-        }
+        { id: 1, nome: "Baleia", especie: "Cachorro", peso: "25kg", idade: "Adulto", raca: "Vira-lata", castrado: "Sim", vacinado: "Sim", cidade: "Jaboatão", foto: "img/baleia.jpg", historia: "Baleia foi encontrado próximo à PGE e busca um lar protetor." },
+        { id: 2, nome: "Fubá", especie: "Gato", peso: "4kg", idade: "Filhote", raca: "SRD", castrado: "Sim", vacinado: "Sim", cidade: "Recife", foto: "img/fuba.jpg", historia: "Fubá é um gatinho dócil que adora brincar com bolinhas de lã." },
+        { id: 3, nome: "Pipoca", especie: "Cachorro", peso: "8kg", idade: "Adulto", raca: "Poodle", castrado: "Sim", vacinado: "Sim", cidade: "Jaboatão", foto: "img/pipoca.jpg", historia: "Pipoca é animada e precisa de uma família que goste de passeios." },
+        { id: 4, nome: "Batata", especie: "Gato", peso: "12kg", idade: "Idoso", raca: "Exótico", castrado: "Sim", vacinado: "Sim", cidade: "Olinda", foto: "img/batata.jpg", historia: "Batata é calmo, adora tirar sonecas ao sol e é muito leal." },
+        { id: 5, nome: "Mirtilo", especie: "Cachorro", peso: "5kg", idade: "Adulto", raca: "Siamês", castrado: "Sim", vacinado: "Sim", cidade: "Recife", foto: "img/mirtilo.jpg", historia: "Mirtilo é observador e independente, ideal para apartamentos." }
     ];
 
     function renderizarTela(lista) {
         const container = document.getElementById('pets-catalogo');
         if (!container) return;
-
         container.innerHTML = "";
 
         if (!lista || lista.length === 0) {
-            container.innerHTML = `
-                <div class="no-results">
-                    <p>🔍 Nenhum amigo foi localizado com esses termos. Tente de outra forma!</p>
-                </div>`;
+            container.innerHTML = `<div class="no-results"><p>🔍 Nenhum amigo localizado com esses termos.</p></div>`;
             return;
         }
 
@@ -232,23 +178,16 @@
                     </a>
                     <div class="olx-info">
                         <span class="olx-tag-cidade">📍 ${pet.cidade}</span>
-                        <h3 style="font-family: 'Montserrat', sans-serif; color: var(--primary); margin-bottom: 10px;">
-                            ${pet.nome.toUpperCase()} ${pet.especie === 'Cachorro' ? '🐶' : '🐱'}
-                        </h3>
-                        
+                        <h3 style="font-family: 'Montserrat'; color: var(--primary); margin-bottom: 10px;">${pet.nome.toUpperCase()}</h3>
                         <div class="olx-detalhes">
                             <p>🧬 <strong>Raça:</strong> ${pet.raca}</p>
                             <p>🎂 <strong>Idade:</strong> ${pet.idade}</p>
                             <p>⚖️ <strong>Peso:</strong> ${pet.peso}</p>
                             <p>✂️ <strong>Castrado:</strong> ${pet.castrado}</p>
                         </div>
-
-                        <a href="detalhes.html?id=${pet.id}" target="_blank" class="btn-main" style="margin-top:auto; width:100%; text-align:center; text-decoration:none; display:block; line-height:2.5;">
-                            Conhecer História
-                        </a>
+                        <a href="detalhes.html?id=${pet.id}" target="_blank" class="btn-main" style="margin-top:auto; width:100%; text-align:center; text-decoration:none; display:block; line-height:2.5;">Conhecer História</a>
                     </div>
-                </article>
-            `;
+                </article>`;
             container.innerHTML += card;
         });
     }
@@ -261,20 +200,14 @@
         const filtrados = petsDadosLocais.filter(pet => {
             const bateEspecie = especie === "" || pet.especie === especie;
             const bateIdade = idade === "" || pet.idade === idade;
-            
             const textoObjeto = JSON.stringify(pet).toLowerCase();
             const bateTexto = termo === "" || textoObjeto.includes(termo);
-
             return bateEspecie && bateIdade && bateTexto;
         });
-
         renderizarTela(filtrados);
     }
 
-    // Carregamento imediato e seguro
-    window.addEventListener('DOMContentLoaded', () => {
-        renderizarTela(petsDadosLocais);
-    });
+    window.addEventListener('DOMContentLoaded', () => { renderizarTela(petsDadosLocais); });
 </script>
 </body>
 </html>
