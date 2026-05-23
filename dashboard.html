@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patas & Laços | Painel Administrativo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .admin-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .welcome-box { background: var(--primary); color: white; padding: 30px; border-radius: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .welcome-box h2 { font-family: 'Montserrat'; margin-bottom: 5px; }
+
+        .tabs-container { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 3px solid #ddd; padding-bottom: 10px; }
+        .tab-btn { background: #e0e0e0; border: none; padding: 12px 25px; font-family: 'Montserrat'; font-weight: 700; font-size: 0.9rem; border-radius: 10px 10px 0 0; cursor: pointer; color: #555; transition: 0.3s; }
+        .tab-btn.active { background: var(--accent); color: white; }
+        .tab-content { display: none; background: white; padding: 30px; border-radius: 0 0 20px 20px; box-shadow: 0 10px 30px var(--shadow); }
+        .tab-content.active { display: block; }
+
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-family: 'IBM Plex Sans', sans-serif; text-align: left; }
+        .admin-table th, .admin-table td { padding: 15px; border-bottom: 1px solid #eee; }
+        .admin-table th { background: #f4f7f6; color: var(--primary); font-family: 'Montserrat'; font-size: 0.85rem; text-transform: uppercase; }
+        .status-badge { padding: 5px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: bold; }
+        .status-pendente { background: #fff3e0; color: #e65100; }
+
+        .modal-analise { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); overflow-y: auto; }
+        .modal-analise-content { background: white; margin: 5% auto; padding: 35px; width: 90%; max-width: 700px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .doc-preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; background: #f9f9f9; padding: 15px; border-radius: 12px; }
+        .doc-item { padding: 10px; border: 1px dashed #bbb; border-radius: 8px; background: white; text-align: center; font-size: 0.85rem; }
+
+        .checklist-pendencias { background: #fff5f5; border: 1px solid #ffcdd2; padding: 20px; border-radius: 12px; margin-top: 15px; text-align: left; }
+        .checklist-pendencias h4 { font-family: 'Montserrat'; color: #c62828; margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; }
+        .check-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; font-size: 0.9rem; cursor: pointer; }
+        .check-item input { margin-top: 3px; cursor: pointer; }
+
+        .acoes-validacao { display: flex; gap: 15px; margin-top: 25px; }
+        .btn-aprovar { background: var(--secondary); color: white; flex: 1; border: none; padding: 12px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-rejeitar { background: #d32f2f; color: white; flex: 1; border: none; padding: 12px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-fechar { background: #777; color: white; border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer; margin-top: 15px; }
+    </style>
+</head>
+<body style="background: var(--bg);">
+
+<header class="main-header">
+    <nav class="nav-container">
+        <div class="logo-area">
+            <img src="img/logo.png" alt="Patas & Laços" class="logo-img">
+        </div>
+        <ul class="nav-links">
+            <li><button onclick="logout()" class="nav-item nav-btn" style="background:transparent; cursor:pointer;">Sair</button></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="admin-container">
+    <div class="welcome-box">
+        <div>
+            <h2>Olá, <span id="nome-voluntario">Voluntário</span>!</h2>
+            <p>Painel de Controle Interno — Nível: <span id="cargo-voluntario" style="font-weight: bold; color: var(--accent);">Carregando...</span></p>
+        </div>
+        <span style="font-size: 3rem;">📋</span>
+    </div>
+
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="mudarAba(event, 'aba-adocoes')">📥 Pedidos de Adoção</button>
+        <button class="tab-btn" onclick="mudarAba(event, 'aba-doacoes')">📤 Pets Enviados para Doação</button>
+    </div>
+
+    <div id="aba-adocoes" class="tab-content active">
+        <h3>Solicitações de Triagem</h3>
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>Interessado</th>
+                <th>Cidade</th>
+                <th>Renda Mensal</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody id="tabela-adocoes-corpo"></tbody>
+        </table>
+    </div>
+
+    <div id="aba-doacoes" class="tab-content">
+        <h3>Perfis de Animais Enviados</h3>
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>Responsável</th>
+                <th>Nome do Pet</th>
+                <th>Espécie</th>
+                <th>Motivo</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody id="tabela-doacoes-corpo"></tbody>
+        </table>
+    </div>
+</main>
+
+<div id="modal-analise" class="modal-analise">
+    <div class="modal-analise-content">
+        <h2 style="font-family: 'Montserrat'; color: var(--primary);" id="modal-titulo">Análise</h2>
+        <p style="font-size: 0.9rem; color: #555; margin-bottom: 20px;">Marque os problemas encontrados se for colocar em pendência.</p>
+
+        <div id="modal-detalhes-usuario"></div>
+
+        <h3 style="font-family: 'Montserrat'; font-size: 1rem; margin-top: 20px; color: var(--primary);">📁 Arquivos Anexados</h3>
+        <div class="doc-preview-grid" id="modal-arquivos"></div>
+
+        <div class="checklist-pendencias">
+            <h4>Selecione as não-conformidades encontradas:</h4>
+            <div id="container-checkboxes"></div>
+        </div>
+
+        <div class="acoes-validacao">
+            <button class="btn-aprovar" onclick="processarDecisao('Aprovado')">✓ Tudo Certo! Aprovar</button>
+            <button class="btn-rejeitar" onclick="processarDecisao('Pendente')">⚠ Sinalizar Pendências</button>
+        </div>
+        <center><button class="btn-fechar" onclick="fecharModalAnalise()">Voltar</button></center>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const sessao = sessionStorage.getItem('usuarioLogado');
+        if (!sessao) { window.location.href = "login.html"; return; }
+        const user = JSON.parse(sessao);
+        document.getElementById('nome-voluntario').innerText = user.nome;
+        document.getElementById('cargo-voluntario').innerText = user.cargo;
+        renderizarTabelas();
+    });
+
+    let pedidosAdocao = [
+        { id: 101, nome: "Carlos Alberto Souza", cidade: "Jaboatão", email: "carlos.souza@email.com", renda: "R$ 3.500,00", perCapita: "R$ 1.750,00", status: "Pendente" }
+    ];
+
+    let pedidosDoacao = [
+        { id: 201, responsavel: "Ricardo Freire", petNome: "Trovão", especie: "Cachorro", email: "ricardo.f@email.com", historia: "Sem espaço.", status: "Pendente" }
+    ];
+
+    const errosPredefinidos = {
+        adocao: [
+            "Documento de identidade (RG/CNH) ilegível ou cortado.",
+            "Comprovante de residência emitido há mais de 90 dias.",
+            "O comprovante de residência não está no nome do candidato.",
+            "Contracheque desatualizado ou rasurado.",
+            "Divergência entre a renda declarada no formulário e o contracheque."
+        ],
+        doacao: [
+            "As fotos anexadas estão borradas ou escuras.",
+            "Falta a foto de corpo inteiro do animal.",
+            "Foto da carteira de vacinação obrigatória não foi enviada ou está ilegível.",
+            "Divergência nas informações de castração ou vacinas.",
+            "Gênero do animal não foi selecionado corretamente."
+        ]
+    };
+
+    let itemSelecionado = null;
+    let tipoSelecionado = '';
+
+    function mudarAba(evt, abaId) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(abaId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+
+    function renderizarTabelas() {
+        document.getElementById('tabela-adocoes-corpo').innerHTML = pedidosAdocao.map(p => `
+            <tr>
+                <td><strong>${p.nome}</strong><br><small>${p.email}</small></td>
+                <td>${p.cidade}</td>
+                <td>${p.renda}</td>
+                <td><span class="status-badge status-pendente">${p.status}</span></td>
+                <td><button class="btn-main" style="padding: 6px 15px; font-size:0.8rem;" onclick="abrirAnalise(${p.id}, 'adocao')">Validar Dados</button></td>
+            </tr>
+        `).join('');
+
+        document.getElementById('tabela-doacoes-corpo').innerHTML = pedidosDoacao.map(d => `
+            <tr>
+                <td><strong>${d.responsavel}</strong><br><small>${d.email}</small></td>
+                <td>${d.petNome.toUpperCase()}</td>
+                <td>${d.especie}</td>
+                <td><span style="font-size:0.85rem; color:#555;">${d.historia}</span></td>
+                <td><span class="status-badge status-pendente">${d.status}</span></td>
+                <td><button class="btn-main" style="padding: 6px 15px; font-size:0.8rem; background:var(--primary);" onclick="abrirAnalise(${d.id}, 'doacao')">Analisar Pet</button></td>
+            </tr>
+        `).join('');
+    }
+
+    // AQUI ESTÁ A FUNÇÃO DO FLUXO DO ABRIR ANALISE
+    function abrirAnalise(id, tipo) {
+        tipoSelecionado = tipo;
+        const containerChecks = document.getElementById('container-checkboxes');
+        containerChecks.innerHTML = '';
+
+        errosPredefinidos[tipo].forEach(erro => {
+            containerChecks.innerHTML += `
+                <label class="check-item">
+                    <input type="checkbox" class="chk-erro" value="${erro}">
+                    <span>${erro}</span>
+                </label>
+            `;
+        });
+
+        if (tipo === 'adocao') {
+            itemSelecionado = pedidosAdocao.find(p => p.id === id);
+            document.getElementById('modal-titulo').innerText = `Triagem Social: ${itemSelecionado.nome}`;
+            document.getElementById('modal-detalhes-usuario').innerHTML = `<p><strong>Candidato:</strong> ${itemSelecionado.nome} | <strong>E-mail:</strong> ${itemSelecionado.email}</p>`;
+            document.getElementById('modal-arquivos').innerHTML = `
+                <div class="doc-item">📄 RG_Frente.pdf</div>
+                <div class="doc-item">📄 Comprovante_Residência.jpg</div>
+                <div class="doc-item">📄 Contracheque.pdf</div>
+            `;
+        } else {
+            itemSelecionado = pedidosDoacao.find(d => d.id === id);
+            document.getElementById('modal-titulo').innerText = `Validação de Cadastro de Pet: ${itemSelecionado.petNome}`;
+            document.getElementById('modal-detalhes-usuario').innerHTML = `<p><strong>Doador:</strong> ${itemSelecionado.responsavel} | <strong>Pet:</strong> ${itemSelecionado.petNome}</p>`;
+            document.getElementById('modal-arquivos').innerHTML = `
+                <div class="doc-item">📸 Foto_Principal.jpg</div>
+                <div class="doc-item">📸 Foto_Corpo.jpg</div>
+                <div class="doc-item">📋 Carteira_Vacinação.pdf</div>
+            `;
+        }
+        document.getElementById('modal-analise').style.display = 'block';
+    }
+
+    function fecharModalAnalise() { document.getElementById('modal-analise').style.display = 'none'; }
+
+    function processarDecisao(novoStatus) {
+        const checkboxesMarcados = document.querySelectorAll('.chk-erro:checked');
+        if (novoStatus === 'Pendente' && checkboxesMarcados.length === 0) {
+            alert("Selecione pelo menos uma pendência da lista.");
+            return;
+        }
+        alert(`Fluxo simulado com sucesso para o e-mail: ${itemSelecionado.email}`);
+        fecharModalAnalise();
+    }
+
+    function logout() { sessionStorage.clear(); window.location.href = "login.html"; }
+</script>
+</body>
+</html>

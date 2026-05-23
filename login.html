@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patas & Laços | Login Administrativo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 250px);
+            padding: 20px;
+        }
+        .login-card {
+            background: var(--white);
+            max-width: 450px;
+            width: 100%;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px var(--shadow);
+            text-align: center;
+        }
+        .login-card h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        .login-card p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+        .input-login {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+            background: #fff;
+            box-sizing: border-box;
+        }
+        .input-login:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 8px rgba(0,0,0,0.05);
+        }
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            display: none;
+            font-weight: 600;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+        /* Painel visual para consulta rápida dos logins durante a banca de defesa do PI */
+        .credenciais-demo {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f0f4f8;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            text-align: left;
+            color: #555;
+            line-height: 1.5;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+        .credenciais-demo strong { color: var(--primary); }
+    </style>
+</head>
+<body style="background: var(--bg);">
+
+<header class="main-header">
+    <nav class="nav-container">
+        <div class="logo-area">
+            <img src="img/logo.png" alt="Patas & Laços" class="logo-img">
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-item">⬅ Voltar ao Site Público</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container login-wrapper">
+    <div class="login-card">
+        <h2>Painel Administrativo</h2>
+        <p>Área restrita para a equipe interna da ONG</p>
+
+        <form id="form-login" onsubmit="autenticarUsuario(event)">
+            <div class="form-group">
+                <label for="username">Usuário / ID</label>
+                <input type="text" id="username" class="input-login" placeholder="Ex: joazinho123" required autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha Interna</label>
+                <input type="password" id="password" class="input-login" placeholder="••••••••" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn-main" style="width: 100%; padding: 14px; border: none; font-size: 1rem; margin-top: 10px; cursor: pointer;">
+                Entrar no Sistema
+            </button>
+
+            <div id="erro-autenticacao" class="error-message">❌ Credenciais incorretas ou sem permissão de acesso.</div>
+        </form>
+
+        <div class="credenciais-demo">
+            <p style="font-weight: bold; margin-bottom: 5px; color: #2c2c2c;">🔑 Logins Cadastrados (Apresentação):</p>
+            • <strong>Admin Geral:</strong> apolo.mendes / <code>senhaPGE2026</code><br>
+            • <strong>Veterinário:</strong> dr.silva / <code>vacinacao2026</code><br>
+            • <strong>Triagem:</strong> maria.lima / <code>pataslacosNGO</code>
+        </div>
+    </div>
+</main>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Patas & Laços - Portal de Adoção e Cuidados. Ambiente Administrativo Protegido.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Base de dados mockada contendo os 3 perfis administrativos solicitados
+    const equipeONG = [
+        { usuario: "admin.apolo", senha: "a.2026", nome: "Apolo Mendes", cargo: "Diretor de Tecnologia e Segurança" },
+        { usuario: "admin.gabriel", senha: "g.2026", nome: "Gabriel França", cargo: "Coordenador de Operações e Bem-Estar Animal" },
+        { usuario: "admin.luiz", senha: "l.2026", nome: "Luiz Barreto", cargo: "Diretor de Relações Comunitárias e Triagem Social" }
+    ];
+
+    function autenticarUsuario(event) {
+        // Impede o recarregamento padrão da página
+        event.preventDefault();
+
+        const userInput = document.getElementById('username').value.trim().toLowerCase();
+        const passwordInput = document.getElementById('password').value;
+        const erroDiv = document.getElementById('erro-autenticacao');
+
+        // Faz a varredura para localizar as credenciais idênticas
+        const contaValida = equipeONG.find(u => u.usuario === userInput && u.senha === passwordInput);
+
+        if (contaValida) {
+            erroDiv.style.display = 'none';
+
+            // Grava os dados do operador na sessão local do navegador
+            // para que o dashboard saiba quem está trabalhando
+            sessionStorage.setItem('usuarioLogado', JSON.stringify({
+                nome: contaValida.nome,
+                cargo: contaValida.cargo
+            }));
+
+            alert(`Autenticação efetuada! Bem-vindo(a), ${contaValida.nome}.`);
+
+            // Direciona o administrador para a área restrita de gerenciamento das abas
+            window.location.href = "dashboard.html";
+        } else {
+            // Exibe o aviso de erro e limpa a senha digitada
+            erroDiv.style.display = 'block';
+            document.getElementById('password').value = '';
+        }
+    }
+</script>
+</body>
+</html>

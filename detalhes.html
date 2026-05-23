@@ -83,7 +83,6 @@
 
 <script src="js/data.js"></script>
 <script>
-    // Script focado em ler o ID da URL e carregar o pet correto
     window.addEventListener('DOMContentLoaded', () => {
         const params = new URLSearchParams(window.location.search);
         const idPet = parseInt(params.get('id'));
@@ -96,7 +95,6 @@
             return;
         }
 
-        // Altera o título da aba do navegador dinamicamente
         document.title = `Patas & Laços | Conheça o ${pet.nome}`;
 
         container.innerHTML = `
@@ -120,11 +118,25 @@
                         <div class="info-item">🐾 <strong>Espécie:</strong> ${pet.especie}</div>
                     </div>
 
-                    <a href="triagem.html" class="btn-main" style="text-decoration: none; text-align: center; display: block; line-height: 3; margin-top: 15px;">Quero me inscrever para adoção</a>
+                    <button onclick="validarFluxoAdocaoDetalhes()" class="btn-main" style="width: 100%; border: none; font-size: 1rem; padding: 14px; text-align: center; display: block; margin-top: 15px; cursor: pointer;">
+                        Quero me inscrever para adoção
+                    </button>
                 </div>
             </div>
         `;
     });
+
+    // Lógica que bloqueia a triagem se o usuário não possuir cadastro local ativo
+    function validarFluxoAdocaoDetalhes() {
+        const contaAtiva = localStorage.getItem('dadosTutor');
+
+        if (!contaAtiva) {
+            alert("Acesso restrito!\n\nPrecisa de iniciar sessão ou criar um cadastro de utilizador antes de enviar o seu formulário de triagem.");
+            window.location.href = "login-tutor.html";
+        } else {
+            window.location.href = "triagem.html";
+        }
+    }
 </script>
 </body>
 </html>

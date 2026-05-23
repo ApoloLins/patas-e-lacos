@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patas & Laços | Login do Tutor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .login-wrapper { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 250px); padding: 20px; }
+        .login-card { background: var(--white); max-width: 450px; width: 100%; padding: 40px; border-radius: 25px; box-shadow: 0 15px 40px var(--shadow); text-align: center; }
+        .login-card h2 { font-family: 'Montserrat', sans-serif; color: var(--primary); margin-bottom: 10px; font-size: 1.8rem; }
+        .login-card p { font-size: 0.9rem; color: #666; margin-bottom: 30px; }
+        .form-group { text-align: left; margin-bottom: 20px; }
+        .form-group label { display: block; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--primary); margin-bottom: 6px; letter-spacing: 0.5px; }
+        .input-login { width: 100%; padding: 14px 20px; border: 2px solid #eee; border-radius: 50px; font-family: 'IBM Plex Sans', sans-serif; font-size: 1rem; outline: none; transition: 0.3s; background: #fff; box-sizing: border-box; }
+        .input-login:focus { border-color: var(--primary); }
+        .error-message { color: #d32f2f; font-size: 0.85rem; margin-top: 15px; display: none; font-weight: 600; font-family: 'IBM Plex Sans'; }
+
+        .links-alternativos { display: flex; justify-content: space-between; margin-top: 25px; padding-top: 20px; border-top: 1px solid #eee; }
+        .btn-link { font-family: 'Montserrat'; font-weight: 700; font-size: 0.8rem; color: var(--primary); text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.3s; }
+        .btn-link:hover { color: var(--accent); }
+        .btn-link-secundario { color: #777; }
+        .credenciais-demo { margin-top: 20px; padding: 12px; background: #f9f9f9; border-radius: 10px; font-size: 0.75rem; text-align: left; color: #666; border: 1px solid #eee; }
+    </style>
+</head>
+<body style="background: var(--bg);">
+
+<header class="main-header">
+    <nav class="nav-container">
+        <div class="logo-area"><img src="img/logo.png" alt="Patas & Laços" class="logo-img"></div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-item">Página Inicial 🏠</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container login-wrapper">
+    <div class="login-card">
+        <h2>Área do Tutor</h2>
+        <p>Acesse com seu usuário para acompanhar seus processos</p>
+
+        <form id="form-login-tutor" onsubmit="autenticarTutor(event)" autocomplete="off">
+            <div class="form-group">
+                <label for="user-username">Nome de Usuário</label>
+                <input type="text" id="user-username" class="input-login" placeholder="Digite seu usuário (Ex: user.apolo)" required autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="user-password">Sua Senha</label>
+                <input type="password" id="user-password" class="input-login" placeholder="••••••••" required autocomplete="off">
+            </div>
+
+            <button type="submit" class="btn-main" style="width: 100%; padding: 14px; border: none; font-size: 1rem; margin-top: 10px; cursor: pointer;">
+                Entrar no Portal
+            </button>
+
+            <div id="erro-login" class="error-message">❌ Usuário ou senha incorretos.</div>
+        </form>
+
+        <div class="links-alternativos">
+            <a href="cadastro-tutor.html" class="btn-link">✨ Cadastre-se</a>
+            <a href="recuperar-senha.html" class="btn-link btn-link-secundario">Esqueci minha senha 🔑</a>
+        </div>
+
+        <div class="credenciais-demo">
+            <strong>🔑 Conta de Teste Oficial:</strong><br>
+            • Usuário: <code>user.apolo</code><br>
+            • Senha: <code>a.2026</code>
+        </div>
+    </div>
+</main>
+
+<script>
+    function autenticarTutor(event) {
+        event.preventDefault();
+
+        const usernameInput = document.getElementById('user-username').value.trim().toLowerCase();
+        const senhaInput = document.getElementById('user-password').value;
+        const erroDiv = document.getElementById('erro-login');
+
+        const usuarioTeste = "user.apolo";
+        const senhaTeste = "a.2026";
+
+        const cadastroExistente = JSON.parse(localStorage.getItem('dadosTutor'));
+
+        const logadoPeloTeste = (usernameInput === usuarioTeste && senhaInput === senhaTeste);
+        const logadoPeloCadastro = (cadastroExistente && usernameInput === cadastroExistente.username && senhaInput === cadastroExistente.senha);
+
+        if (logadoPeloTeste || logadoPeloCadastro) {
+            erroDiv.style.display = 'none';
+
+            // Ativa o token de sessão do front-end
+            localStorage.setItem('user.logado', 'true');
+
+            // INTELIGÊNCIA DE ROTEAMENTO: Analisa de onde o usuário veio antes do login
+            if (localStorage.getItem('dadosTriagemPendente')) {
+                window.location.href = "triagem.html"; // Devolve para a triagem para recuperar rascunho
+            } else if (localStorage.getItem('dadosDoacaoPendente')) {
+                window.location.href = "doar.html"; // Devolve para doar para recuperar rascunho
+            } else {
+                window.location.href = "portal.html"; // Rota padrão se logou direto do header
+            }
+        } else {
+            erroDiv.style.display = 'block';
+            document.getElementById('user-password').value = '';
+        }
+    }
+</script>
+</body>
+</html>
