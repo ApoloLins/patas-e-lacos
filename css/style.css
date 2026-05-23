@@ -1,0 +1,325 @@
+/* 1. VARIÁVEIS E CONFIGURAÇÕES GERAIS  */
+:root {
+    --primary: #1a4d8c;    /* Azul Marinho (Profissional) */
+    --accent: #e67e22;     /* Laranja (Ação/Laço) */
+    --secondary: #2e7d32;  /* Verde (Slogan/Saúde) */
+    --bg: #f8f5f0;         /* Bege Suave (Fundo) */
+    --white: #ffffff;
+    --text: #2c2c2c;
+    --shadow: rgba(26, 77, 140, 0.15);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    overflow-x: hidden; /* Evita que o site "dance" para os lados */
+    line-height: 1.6;
+}
+
+/* 2. HEADER E NAVEGAÇÃO (Superior Direito)*/
+.main-header {
+    background-color: var(--white);
+    padding: 15px 5%;
+    box-shadow: 0 4px 20px var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo-img {
+    height: 65px;
+    display: block;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 15px;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: var(--primary);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 10px 22px;
+    border: 2px solid var(--primary);
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.nav-item:hover {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.nav-btn {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.nav-btn:hover {
+    background: var(--accent);
+    color: var(--white);
+}
+
+/* 3. HERO BANNER (Destaque do Topo) */
+.hero-banner {
+    height: 50vh;
+    background: linear-gradient(135deg, rgba(26, 77, 140, 0.8), rgba(26, 77, 140, 0.5)),
+    url('https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1600') center/cover;
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+    color: var(--white);
+    margin-bottom: 0;
+}
+
+.hero-text h1 {
+    font-family: 'Montserrat';
+    font-size: 3rem;
+    margin-bottom: 15px;
+    line-height: 1.1;
+    color: darkorange;
+}
+
+.btn-main {
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    padding: 10px 25px;
+    font-size: 0.9rem;
+    border-radius: 50px;
+    font-weight: bold;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-main:hover { transform: scale(1.05); }
+
+/* 4. SEÇÃO DESTAQUES (Carrossel Lateral) */
+.destaque-section { padding: 0 10% 80px; }
+
+.section-title-container {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+
+}
+
+.section-subtitle {
+    display: block;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.section-title-modern {
+    font-family: 'Montserrat';
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin: 10px 0;
+}
+
+.title-decorator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.line { width: 50px; height: 3px; background: var(--accent); border-radius: 2px; }
+
+/* Rolagem Lateral */
+#pets-destaque {
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+    padding: 20px 10px 50px;
+    scroll-behavior: smooth;
+}
+
+#pets-destaque::-webkit-scrollbar { height: 8px; }
+#pets-destaque::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+/* Card Lado a Lado */
+.destaque-card {
+    flex: 0 0 850px;
+    display: flex;
+    background: var(--white);
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px var(--shadow);
+}
+
+.destaque-img { width: 45%; height: 420px; object-fit: cover; cursor: pointer; }
+.destaque-info { width: 55%; padding: 40px; }
+
+.pet-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.pet-details-grid p { font-size: 0.85rem; color: #666; }
+
+.carrossel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Esconde a barra de rolagem visualmente mas mantém a função */
+#pets-destaque {
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+    padding: 20px 0 50px;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+}
+
+#pets-destaque::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+/* Estilo das Setas */
+.seta-carrossel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--white);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.seta-carrossel:hover {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.seta-esq { left: -25px; }
+.seta-dir { right: -25px; }
+
+/* 5. MODAL (Pop-up) */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+}
+
+.modal-content {
+    background: var(--white);
+    margin: 5% auto;
+    padding: 40px;
+    width: 90%;
+    max-width: 650px;
+    border-radius: 25px;
+    text-align: center;
+}
+
+/*  6. RODAPÉ (Institucional) */
+.main-footer {
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 80px 5% 30px;
+    border-top: 8px solid var(--accent);
+    text-align: center;
+}
+
+.footer-info h3 { font-family: 'Montserrat'; font-size: 1.8rem; margin-bottom: 20px; }
+.footer-info p { max-width: 800px; margin: 0 auto 40px; opacity: 0.9; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 0.8rem; opacity: 0.5; }
+
+/* 7. RESPONSIVIDADE (Mobile) */
+
+@media (max-width: 768px) {
+    /* 1. Ajuste do Banner inicial */
+    .hero-banner {
+        height: 40vh;
+        padding: 0 5%;
+        text-align: center;
+    }
+
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+
+    /* 2. Ajuste do Carrossel de Animais */
+    .destaque-card {
+        flex: 0 0 90%; /* O card agora ocupa 90% da largura da tela do celular */
+        flex-direction: column; /* IMAGEM EM CIMA, TEXTO EMBAIXO */
+        height: auto;
+    }
+
+    .destaque-img {
+        width: 100%;
+        height: 250px; /* Foto menor no celular para não rolar demais */
+    }
+
+    .destaque-info {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .pet-details-grid {
+        grid-template-columns: 1fr; /* Informações em uma única coluna no celular */
+    }
+
+    /* 3. Ajuste das Setas */
+    .seta-carrossel {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .seta-esq { left: 5px; }
+    .seta-dir { right: 5px; }
+
+    /* 4. Menu do topo */
+    .nav-links {
+        gap: 5px;
+    }
+
+    .nav-item {
+        padding: 8px 12px;
+        font-size: 0.65rem;
+    }
+}
