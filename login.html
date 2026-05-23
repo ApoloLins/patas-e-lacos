@@ -103,11 +103,11 @@
 <main class="container login-wrapper">
     <div class="login-card">
         <h2>Painel Administrativo</h2>
-        <p>Área restrita para a equipe interna da ONG</p>
+        <p>Área restrita para a equipe da ONG</p>
 
         <form id="form-login" onsubmit="autenticarUsuario(event)">
             <div class="form-group">
-                <label for="username">Usuário / ID</label>
+                <label for="username">Usuário</label>
                 <input type="text" id="username" class="input-login" placeholder="Ex: joazinho123" required autocomplete="username">
             </div>
 
@@ -125,9 +125,9 @@
 
         <div class="credenciais-demo">
             <p style="font-weight: bold; margin-bottom: 5px; color: #2c2c2c;">🔑 Logins Cadastrados (Apresentação):</p>
-            • <strong>Admin Geral:</strong> apolo.mendes / <code>senhaPGE2026</code><br>
-            • <strong>Veterinário:</strong> dr.silva / <code>vacinacao2026</code><br>
-            • <strong>Triagem:</strong> maria.lima / <code>pataslacosNGO</code>
+            • <strong>Admin Geral:</strong> apolo.mendes / <code>a.2026</code><br>
+            • <strong>Veterinário:</strong> gabriel.franca / <code>g.2026</code><br>
+            • <strong>Triagem:</strong> luiz.barreto / <code>l.2026</code>
         </div>
     </div>
 </main>
@@ -149,7 +149,7 @@
     ];
 
     function autenticarUsuario(event) {
-        // Impede o recarregamento padrão da página
+        // Impede o recarregamento da página
         event.preventDefault();
 
         const userInput = document.getElementById('username').value.trim().toLowerCase();
