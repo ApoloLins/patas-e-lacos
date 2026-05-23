@@ -103,7 +103,7 @@
 <div id="modal-analise" class="modal-analise">
     <div class="modal-analise-content">
         <h2 style="font-family: 'Montserrat'; color: var(--primary);" id="modal-titulo">Análise</h2>
-        <p style="font-size: 0.9rem; color: #555; margin-bottom: 20px;">Marque os problemas encontrados se for colocar em pendência.</p>
+        <p style="font-size: 0.9rem; color: #555; margin-bottom: 20px;">Marque os problemas encontrados.</p>
 
         <div id="modal-detalhes-usuario"></div>
 
@@ -116,8 +116,8 @@
         </div>
 
         <div class="acoes-validacao">
-            <button class="btn-aprovar" onclick="processarDecisao('Aprovado')">✓ Tudo Certo! Aprovar</button>
-            <button class="btn-rejeitar" onclick="processarDecisao('Pendente')">⚠ Sinalizar Pendências</button>
+            <button class="btn-aprovar" onclick="processarDecisao('Aprovado')">Tudo Certo! \n Aprovar</button>
+            <button class="btn-rejeitar" onclick="processarDecisao('Pendente')">Sinalizar Pendências</button>
         </div>
         <center><button class="btn-fechar" onclick="fecharModalAnalise()">Voltar</button></center>
     </div>
@@ -134,7 +134,7 @@
     });
 
     let pedidosAdocao = [
-        { id: 101, nome: "Carlos Alberto Souza", cidade: "Jaboatão", email: "carlos.souza@email.com", renda: "R$ 3.500,00", perCapita: "R$ 1.750,00", status: "Pendente" }
+        { id: 101, nome: "Carlos Alberto Souza", cidade: "Jaboatão dos Guararapes", email: "carlos.souza@email.com", renda: "R$ 3.500,00", perCapita: "R$ 1.750,00", status: "Pendente" }
     ];
 
     let pedidosDoacao = [
@@ -191,7 +191,7 @@
         `).join('');
     }
 
-    // AQUI ESTÁ A FUNÇÃO DO FLUXO DO ABRIR ANALISE
+    //FUNÇÃO DO FLUXO DO ABRIR ANALISE
     function abrirAnalise(id, tipo) {
         tipoSelecionado = tipo;
         const containerChecks = document.getElementById('container-checkboxes');
