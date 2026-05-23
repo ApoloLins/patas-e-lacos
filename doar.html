@@ -3,129 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Doação | Patas & Laços</title>
+    <title>Patas & Laços | Quero Doar</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        .form-section { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
-        .form-section h4 { margin-bottom: 20px; color: var(--primary); font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; }
-        .grid-2 { display: flex; gap: 15px; }
-        .grid-2 input, .grid-2 div, .grid-2 select { flex: 1; }
-        .grid-3 { display: flex; gap: 15px; }
-        .grid-3 .flex-3 { flex: 3; }
-        .grid-3 .flex-1 { flex: 1; }
-        .input-padrao { width: 100%; padding: 12px 15px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.95rem; outline: none; transition: 0.3s; background: white; }
-        .input-padrao:focus { border-color: var(--primary); }
-        .file-label { display: block; font-weight: bold; font-size: 0.85rem; color: #555; margin-bottom: 5px; margin-top: 10px; }
-        .currency-wrapper { position: relative; display: flex; align-items: center; width: 100%; }
-        .currency-wrapper .symbol { position: absolute; left: 15px; font-family: 'IBM Plex Sans'; font-size: 0.95rem; color: #555; font-weight: 600; pointer-events: none; }
-        .currency-wrapper input { padding-left: 45px; }
-        #mensagem-sucesso { display: none; text-align: center; padding: 40px 20px; }
-        #mensagem-sucesso h3 { font-family: 'Montserrat'; color: var(--secondary); font-size: 1.8rem; margin-bottom: 15px; }
-        #mensagem-sucesso p { font-size: 1.1rem; color: var(--text); margin-bottom: 30px; line-height: 1.6; }
-        @media (max-width: 768px) {
-            .grid-2, .grid-3 { flex-direction: column; gap: 0; }
-        }
+        .doar-wrapper { max-width: 650px; margin: 40px auto; padding: 0 20px; }
+        .doar-card { background: white; padding: 45px; border-radius: 25px; box-shadow: 0 15px 40px var(--shadow); }
+        .doar-card h2 { font-family: 'Montserrat'; color: var(--primary); font-size: 1.8rem; margin-bottom: 5px; text-align: center; }
+        .doar-card p { font-size: 0.9rem; color: #666; margin-bottom: 30px; text-align: center; line-height: 1.5; }
+
+        .form-group-doar { text-align: left; margin-bottom: 22px; }
+        .form-group-doar label { display: block; font-family: 'Montserrat'; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--primary); margin-bottom: 8px; letter-spacing: 0.5px; }
+        .input-doar, .select-doar, .textarea-doar { width: 100%; padding: 14px 20px; border: 2px solid #eee; border-radius: 50px; font-family: 'IBM Plex Sans', sans-serif; font-size: 1rem; outline: none; transition: 0.3s; background: #fff; box-sizing: border-box; }
+        .input-doar:focus, .select-doar:focus, .textarea-doar:focus { border-color: var(--primary); }
+        .textarea-doar { border-radius: 20px; resize: vertical; min-height: 100px; }
     </style>
 </head>
-<body style="background: var(--bg); padding: 20px 10px;">
+<body style="background: var(--bg);">
 
-<div style="width: 100%; max-width: 750px; margin: 0 auto; background: white; padding: 25px; border-radius: 30px; box-shadow: 0 10px 40px var(--shadow); box-sizing: border-box;">
-    
-    <div id="container-formulario">
-        <h2 style="font-family: 'Montserrat'; color: var(--primary); margin-bottom: 35px; text-align: center;">Formulário de Doação</h2>
-        <form id="form-doacao" onsubmit="enviarDoacao(event)">
-            
-            <div class="form-section">
-                <h4>Dados Pessoais do Responsável</h4>
-                <input type="text" id="nome" placeholder="Nome Completo" class="input-padrao" required>
-                <div class="grid-2">
-                    <input type="text" id="cpf" placeholder="CPF: 000.000.000-00" class="input-padrao" oninput="mascaraCPF(this)" maxlength="14" required>
-                    <input type="text" id="rg" placeholder="RG" class="input-padrao" required>
-                </div>
-                <div class="grid-2">
-                    <div style="margin-bottom: 15px;">
-                        <span style="font-size: 0.8rem; color: #777; display:block; margin-bottom:4px;">Data de Nascimento:</span>
-                        <input type="date" id="nascimento" class="input-padrao" style="margin-bottom:0;" required>
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <span style="font-size: 0.8rem; color: #777; display:block; margin-bottom:4px;">Telefone (WhatsApp):</span>
-                        <input type="tel" id="telefone" placeholder="(00) 00000-0000" class="input-padrao" style="margin-bottom:0;" oninput="mascaraTelefone(this)" maxlength="15" required>
-                    </div>
-                </div>
+<header class="main-header">
+    <nav class="nav-container">
+        <div class="logo-area">
+            <img src="img/logo.png" alt="Patas & Laços" class="logo-img">
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-item">Início</a></li>
+            <li><a href="catalogo.html" class="nav-item">Adotar</a></li>
+            <li><a href="doar.html" class="nav-item active">Quero Doar</a></li>
+            <li><a href="login-tutor.html" class="nav-item btn-main" style="color: white; padding: 8px 20px; margin-left: 10px; text-decoration: none;">Área do Tutor 👤</a></li>
+        </ul>
+    </nav>
+</header>
 
-                <div class="grid-3">
-                    <input type="text" id="cep" placeholder="CEP: 00000-000" class="input-padrao flex-1" oninput="mascaraCEP(this)" maxlength="9" required>
-                    <input type="text" id="rua" placeholder="Rua / Logradouro" class="input-padrao flex-3" required>
-                </div>
-                <div class="grid-3">
-                    <input type="text" id="numero" placeholder="Nº" class="input-padrao flex-1" required>
-                    <input type="text" id="bairro" placeholder="Bairro" class="input-padrao flex-3" required>
-                </div>
-                <div class="grid-3">
-                    <input type="text" id="cidade" placeholder="Cidade" class="input-padrao flex-3" required>
-                    <input type="text" id="estado" placeholder="Estado" class="input-padrao flex-1" maxlength="2" required>
-                </div>
-                <input type="email" id="email" placeholder="E-mail" class="input-padrao" required>
+<div class="doar-wrapper">
+    <main class="doar-card">
+        <h2>Cadastrar Pet para Doação</h2>
+        <p>Preencha os dados do animal resgatado para disponibilizá-lo no nosso catálogo geral após triagem interna da ONG.</p>
+
+        <form onsubmit="interceptarFluxoDoacao(event)">
+            <div class="form-group-doar">
+                <label for="pet-nome">Nome do Animal</label>
+                <input type="text" id="pet-nome" class="input-doar" placeholder="Ex: Pipoca, Amarelo" required>
             </div>
 
-            <div class="form-section">
-                <h4>Informações Socioeconômicas</h4>
-                <input type="text" id="profissao" placeholder="Profissão" class="input-padrao" required>
-                <div class="grid-2">
-                    <div style="margin-bottom: 15px; width: 100%;">
-                        <span style="font-size: 0.8rem; color: #777; display:block; margin-bottom:4px;">Renda Mensal:</span>
-                        <div class="currency-wrapper"><span class="symbol">R$</span><input type="text" id="renda-mensal" class="input-padrao" oninput="mascaraMoeda(this)" required></div>
-                    </div>
-                    <div style="margin-bottom: 15px; width: 100%;">
-                        <span style="font-size: 0.8rem; color: #777; display:block; margin-bottom:4px;">Renda Per Capita:</span>
-                        <div class="currency-wrapper"><span class="symbol">R$</span><input type="text" id="renda-capita" class="input-padrao" oninput="mascaraMoeda(this)" required></div>
-                    </div>
-                </div>
+            <div class="form-group-doar">
+                <label for="pet-tipo">Espécie</label>
+                <select id="pet-tipo" class="select-doar" required>
+                    <option value="" disabled selected>Selecione a espécie</option>
+                    <option value="Cachorro">Cachorro</option>
+                    <option value="Gato">Gato</option>
+                </select>
             </div>
 
-            <div class="form-section" style="border-bottom: none;">
-                <h4>Fotos e Detalhes do Pet</h4>
-                <div class="grid-2">
-                    <input type="text" placeholder="Nome do Animal" class="input-padrao" required>
-                    <select class="input-padrao" required>
-                        <option value="">Espécie</option>
-                        <option value="Cachorro">Cachorro</option>
-                        <option value="Gato">Gato</option>
-                    </select>
-                </div>
-                <textarea placeholder="História do animal e motivo da entrega..." class="input-padrao" style="height: 100px; padding-top: 12px;" required></textarea>
-                
-                <label class="file-label">FOTO DE PERFIL PRINCIPAL:</label><input type="file" class="input-padrao" accept="image/*" required>
-                <label class="file-label">FOTO CORPO INTEIRO:</label><input type="file" class="input-padrao" accept="image/*" required>
+            <div class="form-group-doar">
+                <label for="pet-idade">Idade Aproximada</label>
+                <input type="text" id="pet-idade" class="input-doar" placeholder="Ex: 2 meses, 1 ano" required>
             </div>
 
-            <button type="submit" class="btn-main" style="border: none; width: 100%; padding: 15px;">Enviar Cadastro para Análise</button>
+            <div class="form-group-doar">
+                <label for="pet-porte">Porte Estimado</label>
+                <select id="pet-porte" class="select-doar" required>
+                    <option value="" disabled selected>Selecione o porte</option>
+                    <option value="Pequeno">Pequeno (Até 10kg)</option>
+                    <option value="Médio">Médio (11kg a 25kg)</option>
+                    <option value="Grande">Grande (Acima de 25kg)</option>
+                </select>
+            </div>
+
+            <div class="form-group-doar">
+                <label for="pet-comportamento">Perfil Comportamental / Detalhes</label>
+                <textarea id="pet-comportamento" class="textarea-doar" placeholder="Conte sobre o temperamento dele..." required></textarea>
+            </div>
+
+            <center>
+                <button type="submit" class="btn-main" style="margin-top: 20px; border: none; padding: 14px 45px; font-size: 1rem; cursor: pointer;">
+                    Enviar para Avaliação da ONG 🐾
+                </button>
+            </center>
         </form>
-    </div>
-
-    <div id="mensagem-sucesso">
-        <span style="font-size: 4rem;">🐾</span>
-        <h3>Cadastro Recebido com Sucesso!</h3>
-        <p>O perfil do animal entrou na nossa lista de análise. Em até 5 dias úteis a equipe entrará em contato.</p>
-        <button onclick="window.close();" class="btn-main" style="border:none;">Fechar Janela</button>
-    </div>
+    </main>
 </div>
 
-<script>
-function mascaraCPF(i) { let v = i.value.replace(/\D/g, ""); v = v.replace(/(\d{3})(\d)/, "$1.$2"); v = v.replace(/(\d{3})(\d)/, "$1.$2"); v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2"); i.value = v; }
-function mascaraTelefone(i) { let v = i.value.replace(/\D/g, ""); v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); v = v.replace(/(\d{5})(\d)/, "$1-$2"); i.value = v; }
-function mascaraCEP(i) { let v = i.value.replace(/\D/g, ""); v = v.replace(/^(\d{5})(\d)/, "$1-$2"); i.value = v; }
-function mascaraMoeda(i) { let v = i.value.replace(/\D/g, ""); v = (v / 100).toFixed(2) + ""; v = v.replace(".", ","); v = v.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); i.value = v === "0,00" ? "" : v; }
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Patas & Laços - Portal de Adoção e Cuidados.</p>
+        </div>
+    </div>
+</footer>
 
-function enviarDoacao(e) {
-    e.preventDefault();
-    if (document.getElementById('cpf').value.replace(/\D/g, '').length !== 11) { alert("CPF inválido."); return; }
-    if (document.getElementById('telefone').value.replace(/\D/g, '').length !== 11) { alert("Telefone inválido."); return; }
-    document.getElementById('container-formulario').style.display = 'none';
-    document.getElementById('mensagem-sucesso').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+<script>
+    window.onload = function() {
+        if (localStorage.getItem('user.logado') === 'true' && localStorage.getItem('dadosDoacaoPendente')) {
+            const dadosPet = JSON.parse(localStorage.getItem('dadosDoacaoPendente'));
+
+            // Restaura o rascunho do pet nos campos da tela
+            document.getElementById('pet-nome').value = dadosPet.nome;
+            document.getElementById('pet-tipo').value = dadosPet.tipo;
+            document.getElementById('pet-idade').value = dadosPet.idade;
+            document.getElementById('pet-porte').value = dadosPet.porte;
+            document.getElementById('pet-comportamento').value = dadosPet.comportamento;
+
+            localStorage.removeItem('dadosDoacaoPendente');
+
+            alert("🔒 Conta Identificada!\n\nO perfil do animal foi anexado à sua conta e encaminhado com sucesso para homologação no catálogo.");
+            window.location.href = "portal.html";
+        }
+    }
+
+    function interceptarFluxoDoacao(e) {
+        e.preventDefault();
+
+        const rascunhoPet = {
+            nome: document.getElementById('pet-nome').value,
+            tipo: document.getElementById('pet-tipo').value,
+            idade: document.getElementById('pet-idade').value,
+            porte: document.getElementById('pet-porte').value,
+            comportamento: document.getElementById('pet-comportamento').value
+        };
+
+        localStorage.setItem('dadosDoacaoPendente', JSON.stringify(rascunhoPet));
+
+        if (localStorage.getItem('user.logado') !== 'true') {
+            alert("Dados do bicho gravados!\n\nPara concluir e enviar o pet para doação, precisamos que você faça login na sua Conta de Tutor.");
+            window.location.href = "login-tutor.html";
+        } else {
+            alert("Dados do pet enviados com sucesso!");
+            window.location.href = "portal.html";
+        }
+    }
 </script>
 </body>
 </html>
