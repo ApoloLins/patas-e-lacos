@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* Garantindo que os estilos do catálogo estilo OLX fiquem isolados aqui */
         .search-filter-section {
             background: #ffffff;
             padding: 30px;
@@ -108,7 +107,7 @@
 </header>
 
 <main class="container" style="padding: 20px;">
-
+    
     <section class="search-filter-section">
         <div class="search-box">
             <input type="text" id="search-input" placeholder="Busque por nome, raça, cidade ou qualquer detalhe..." oninput="filtrarLocalmente()">
@@ -129,7 +128,7 @@
     </section>
 
     <section class="grid-pets" id="pets-catalogo">
-    </section>
+        </section>
 
 </main>
 
@@ -141,10 +140,76 @@
     </div>
 </footer>
 
-<script src="js/data.js"></script>
-
 <script>
-    // Lógica autoexecutável e isolada para o catálogo
+    // BANCO DE DADOS EMBUTIDO DIRETAMENTE PARA EVITAR ERROS DE LEITURA HTTP
+    const petsDadosLocais = [
+        {
+            id: 1,
+            nome: "Baleia",
+            especie: "Cachorro",
+            peso: "25kg",
+            idade: "Adulto",
+            raca: "Vira-lata",
+            castrado: "Sim",
+            vacinado: "Sim",
+            cidade: "Jaboatão",
+            foto: "img/baleia.jpg",
+            historia: "Baleia foi encontrado próximo à PGE e busca um lar protetor."
+        },
+        {
+            id: 2,
+            nome: "Fubá",
+            especie: "Gato",
+            peso: "4kg",
+            idade: "Filhote",
+            raca: "SRD",
+            castrado: "Sim",
+            vacinado: "Sim",
+            cidade: "Recife",
+            foto: "img/fuba.jpg",
+            historia: "Fubá é um gatinho dócil que adora brincar com bolinhas de lã."
+        },
+        {
+            id: 3,
+            nome: "Pipoca",
+            especie: "Cachorro",
+            peso: "8kg",
+            idade: "Adulto",
+            raca: "Poodle",
+            castrado: "Sim",
+            vacinado: "Sim",
+            cidade: "Jaboatão",
+            foto: "img/pipoca.jpg",
+            historia: "Pipoca é animada e precisa de uma família que goste de passeios."
+        },
+        {
+            id: 4,
+            nome: "Batata",
+            especie: "Gato",
+            peso: "12kg",
+            idade: "Idoso",
+            raca: "Exótico",
+            castrado: "Sim",
+            vacinado: "Sim",
+            cidade: "Olinda",
+            foto: "img/batata.jpg",
+            historia: "Batata é calmo, adora tirar sonecas ao sol e é muito leal."
+        },
+        {
+            id: 5,
+            nome: "Mirtilo",
+            especie: "Cachorro",
+            peso: "5kg",
+            idade: "Adulto",
+            raca: "Siamês",
+            castrado: "Sim",
+            vacinado: "Sim",
+            cidade: "Recife",
+            foto: "img/mirtilo.jpg",
+            historia: "Mirtilo é observador e independente, ideal para apartamentos."
+        }
+    ];
+
     function renderizarTela(lista) {
         const container = document.getElementById('pets-catalogo');
         if (!container) return;
@@ -170,7 +235,7 @@
                         <h3 style="font-family: 'Montserrat', sans-serif; color: var(--primary); margin-bottom: 10px;">
                             ${pet.nome.toUpperCase()} ${pet.especie === 'Cachorro' ? '🐶' : '🐱'}
                         </h3>
-
+                        
                         <div class="olx-detalhes">
                             <p>🧬 <strong>Raça:</strong> ${pet.raca}</p>
                             <p>🎂 <strong>Idade:</strong> ${pet.idade}</p>
@@ -193,11 +258,10 @@
         const especie = document.getElementById('filter-especie').value;
         const idade = document.getElementById('filter-idade').value;
 
-        // "pets" vem diretamente do arquivo js/data.js
-        const filtrados = pets.filter(pet => {
+        const filtrados = petsDadosLocais.filter(pet => {
             const bateEspecie = especie === "" || pet.especie === especie;
             const bateIdade = idade === "" || pet.idade === idade;
-
+            
             const textoObjeto = JSON.stringify(pet).toLowerCase();
             const bateTexto = termo === "" || textoObjeto.includes(termo);
 
@@ -207,13 +271,9 @@
         renderizarTela(filtrados);
     }
 
-    // Inicialização forçada assim que a página estiver pronta
-    window.addEventListener('load', () => {
-        if (typeof pets !== 'undefined') {
-            renderizarTela(pets);
-        } else {
-            document.getElementById('pets-catalogo').innerHTML = '<p style="text-align:center; color:red;">Erro: O arquivo js/data.js não pôde ser lido.</p>';
-        }
+    // Carregamento imediato e seguro
+    window.addEventListener('DOMContentLoaded', () => {
+        renderizarTela(petsDadosLocais);
     });
 </script>
 </body>
