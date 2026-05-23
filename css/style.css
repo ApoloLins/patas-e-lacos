@@ -98,15 +98,15 @@ body {
     font-size: 3rem;
     margin-bottom: 15px;
     line-height: 1.1;
-    color: darkorange;
 }
+
+.hero-text h1 span { color: var(--accent); }
 
 .btn-main {
     background: var(--accent);
     color: white;
     text-decoration: none;
-    padding: 10px 25px;
-    font-size: 0.9rem;
+    padding: 15px 35px;
     border-radius: 50px;
     font-weight: bold;
     display: inline-block;
@@ -117,6 +117,11 @@ body {
 
 .btn-main:hover { transform: scale(1.05); }
 
+.hero-actions .btn-main {
+    padding: 10px 25px;
+    font-size: 0.9rem;
+}
+
 /* 4. SEÇÃO DESTAQUES (Carrossel Lateral) */
 .destaque-section { padding: 0 10% 80px; }
 
@@ -124,7 +129,6 @@ body {
     text-align: center;
     margin-top: 0;
     margin-bottom: 15px;
-
 }
 
 .section-subtitle {
@@ -157,12 +161,14 @@ body {
     display: flex;
     gap: 30px;
     overflow-x: auto;
-    padding: 20px 10px 50px;
+    padding: 20px 0 50px;
     scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
 }
 
-#pets-destaque::-webkit-scrollbar { height: 8px; }
-#pets-destaque::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+#pets-destaque::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
 
 /* Card Lado a Lado */
 .destaque-card {
@@ -194,20 +200,6 @@ body {
     margin: 0 auto;
 }
 
-/* Esconde a barra de rolagem visualmente mas mantém a função */
-#pets-destaque {
-    display: flex;
-    gap: 30px;
-    overflow-x: auto;
-    padding: 20px 0 50px;
-    scroll-behavior: smooth;
-    scrollbar-width: none; /* Firefox */
-}
-
-#pets-destaque::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
-}
-
 /* Estilo das Setas */
 .seta-carrossel {
     position: absolute;
@@ -235,7 +227,6 @@ body {
 .seta-dir { right: -25px; }
 
 /* 5. MODAL (Pop-up) */
-
 .modal {
     display: none;
     position: fixed;
@@ -255,7 +246,7 @@ body {
     text-align: center;
 }
 
-/*  6. RODAPÉ (Institucional) */
+/* 6. RODAPÉ (Institucional) */
 .main-footer {
     background-color: var(--primary);
     color: var(--white);
@@ -269,9 +260,7 @@ body {
 .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 0.8rem; opacity: 0.5; }
 
 /* 7. RESPONSIVIDADE (Mobile) */
-
 @media (max-width: 768px) {
-    /* 1. Ajuste do Banner inicial */
     .hero-banner {
         height: 40vh;
         padding: 0 5%;
@@ -282,16 +271,20 @@ body {
         font-size: 2rem;
     }
 
-    /* 2. Ajuste do Carrossel de Animais */
+    .carrossel-container {
+        width: 100%;
+        overflow: hidden;
+    }
+
     .destaque-card {
-        flex: 0 0 90%; /* O card agora ocupa 90% da largura da tela do celular */
-        flex-direction: column; /* IMAGEM EM CIMA, TEXTO EMBAIXO */
+        flex: 0 0 90%; /* O card ocupa 90% no telemóvel */
+        flex-direction: column; /* Foto em cima, dados em baixo */
         height: auto;
     }
 
     .destaque-img {
         width: 100%;
-        height: 250px; /* Foto menor no celular para não rolar demais */
+        height: 250px;
     }
 
     .destaque-info {
@@ -300,10 +293,9 @@ body {
     }
 
     .pet-details-grid {
-        grid-template-columns: 1fr; /* Informações em uma única coluna no celular */
+        grid-template-columns: 1fr;
     }
 
-    /* 3. Ajuste das Setas */
     .seta-carrossel {
         width: 40px;
         height: 40px;
@@ -313,7 +305,6 @@ body {
     .seta-esq { left: 5px; }
     .seta-dir { right: 5px; }
 
-    /* 4. Menu do topo */
     .nav-links {
         gap: 5px;
     }
