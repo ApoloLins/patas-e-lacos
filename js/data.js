@@ -8,7 +8,7 @@ const pets = [
         raca: "Vira-lata",
         castrado: "Sim",
         vacinado: "Sim",
-        cidade: "Jaboatão",
+        cidade: "Jaboatão dos Guararapes",
         foto: "img/baleia.jpg",
         historia: "Baleia foi encontrado próximo à PGE e busca um lar protetor."
     },
@@ -23,45 +23,45 @@ const pets = [
         vacinado: "Sim",
         cidade: "Recife",
         foto: "img/fuba.jpg",
-        historia: "Fubá é um gatinho dócil que adora brincar com bolinhas de lã."
+        historia: "Fubá é um gatinho dócil que adora brincar com bolinhas de lã (rs)."
     },
     {
         id: 3,
         nome: "Pipoca",
         especie: "Cachorro",
-        peso: "8kg",
+        peso: "12kg",
         idade: "Adulto",
-        raca: "Poodle",
+        raca: "Golden",
         castrado: "Sim",
         vacinado: "Sim",
-        cidade: "Jaboatão",
+        cidade: "Jaboatão dos Guararapes",
         foto: "img/pipoca.jpg",
-        historia: "Pipoca é animada e precisa de uma família que goste de passeios."
+        historia: "Pipoca é animado e precisa de uma família que goste de passeios."
     },
     {
         id: 4,
         nome: "Batata",
         especie: "Gato",
-        peso: "12kg",
+        peso: "4kg",
         idade: "Idoso",
         raca: "Exótico",
         castrado: "Sim",
         vacinado: "Sim",
         cidade: "Olinda",
         foto: "img/batata.jpg",
-        historia: "Batata é calmo, adora tirar sonecas ao sol e é muito leal."
+        historia: "Batata é calmo, adora passar o dia no valorant."
     },
     {
         id: 5,
         nome: "Mirtilo",
         especie: "Cachorro",
-        peso: "5kg",
+        peso: "10kg",
         idade: "Adulto",
         raca: "Siamês",
         castrado: "Sim",
         vacinado: "Sim",
         cidade: "Recife",
         foto: "img/mirtilo.jpg",
-        historia: "Mirtilo é observador e independente, ideal para apartamentos."
+        historia: "Mirtilo é atentado, mas muito carinho. Ideal para residências grandes!"
     }
 ];
