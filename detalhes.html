@@ -126,12 +126,12 @@
         `;
     });
 
-    // Lógica que bloqueia a triagem se o usuário não possuir cadastro local ativo
+    // LÓGICA QUE BLOQUEIA A ADOÇÃO CASO O USUÁRIO NÃO ESTEJA LOGADO
     function validarFluxoAdocaoDetalhes() {
         const contaAtiva = localStorage.getItem('dadosTutor');
 
         if (!contaAtiva) {
-            alert("Acesso restrito!\n\nPrecisa de iniciar sessão ou criar um cadastro de utilizador antes de enviar o seu formulário de triagem.");
+            alert("Acesso restrito!\n\nVocê precisa de iniciar sessão ou criar um cadastro de usuário antes de enviar o seu formulário para triagem.");
             window.location.href = "login-tutor.html";
         } else {
             window.location.href = "triagem.html";
