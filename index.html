@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patas & Laços | Home</title>
     <link rel="stylesheet" href="css/style.css">
-    <!-- Fontes profissionais -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- MODAL (POP-UP) - O conteúdo é injetado pelo main.js -->
 <div id="modal-pet" class="modal">
     <div class="modal-content">
-        <!-- O JavaScript preencherá este espaço dinamicamente -->
     </div>
 </div>
 
@@ -22,16 +19,15 @@
         <div class="logo-area">
             <img src="img/logo.png" alt="Patas & Laços" class="logo-img">
         </div>
-
         <ul class="nav-links">
             <li><a href="index.html" class="nav-item">Início</a></li>
             <li><a href="catalogo.html" class="nav-item">Adotar</a></li>
-            <li><a href="doar.html" class="nav-item nav-btn" target="_blank">Quero Doar</a></li>
+            <li><a href="doar.html" class="nav-item">Quero Doar</a></li>
+            <li><a href="login-tutor.html" class="nav-item btn-main" style="color: white; padding: 8px 20px; margin-left: 10px; text-decoration: none;">Área do Tutor 👤</a></li>
         </ul>
     </nav>
 </header>
 
-<!-- Seção Inicial (Hero) -->
 <section class="hero-banner">
     <div class="hero-text">
         <h1>Unindo propósitos, <br><span>atando laços.</span></h1>
@@ -54,14 +50,10 @@
             </div>
         </div>
 
-        <!-- Container onde o JavaScript vai carregar os animais do data.js -->
         <div class="carrossel-container">
             <button class="seta-carrossel seta-esq" onclick="scrollCarrossel(-1)">&#10094;</button>
-
             <div id="pets-destaque">
-                <!-- O JS continuará injetando os cards aqui -->
             </div>
-
             <button class="seta-carrossel seta-dir" onclick="scrollCarrossel(1)">&#10095;</button>
         </div>
     </section>
@@ -75,11 +67,11 @@
         </div>
         <div class="footer-bottom">
             <p>&copy; 2026 Patas & Laços - Portal de Adoção e Cuidados. Todos os direitos reservados.</p>
+            <p style="margin-top: 15px; opacity: 0.5;"><a href="login.html" style="color: #ffffff; text-decoration: none; font-size: 0.8rem; font-family: 'IBM Plex Sans';">Acesso Restrito (Voluntários)</a></p>
         </div>
     </div>
 </footer>
 
-<!-- Scripts: A ordem importa! Primeiro os dados, depois a lógica -->
 <script src="js/data.js"></script>
 <script src="js/main.js"></script>
 
