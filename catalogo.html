@@ -7,91 +7,24 @@
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        .search-filter-section {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 20px;
-            margin: 30px auto;
-            max-width: 1200px;
-            box-shadow: 0 10px 30px rgba(26, 77, 140, 0.05);
-        }
-        .search-box {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .search-box input {
-            flex: 1;
-            padding: 15px 25px;
-            border-radius: 50px;
-            border: 2px solid #ddd;
-            font-size: 1rem;
-            font-family: 'IBM Plex Sans', sans-serif;
-            outline: none;
-            transition: 0.3s;
-        }
+        .search-filter-section { background: #ffffff; padding: 30px; border-radius: 20px; margin: 30px auto; max-width: 1200px; box-shadow: 0 10px 30px rgba(26, 77, 140, 0.05); }
+        .search-box { display: flex; gap: 15px; margin-bottom: 20px; }
+        .search-box input { flex: 1; padding: 15px 25px; border-radius: 50px; border: 2px solid #ddd; font-size: 1rem; font-family: 'IBM Plex Sans', sans-serif; outline: none; transition: 0.3s; }
         .search-box input:focus { border-color: var(--primary); }
         .filters-box { display: flex; gap: 15px; flex-wrap: wrap; }
-        .filter-select {
-            padding: 10px 20px;
-            border-radius: 50px;
-            border: 2px solid #ddd;
-            background: white;
-            font-family: 'IBM Plex Sans', sans-serif;
-            color: var(--text);
-            cursor: pointer;
-            outline: none;
-        }
+        .filter-select { padding: 10px 20px; border-radius: 50px; border: 2px solid #ddd; background: white; font-family: 'IBM Plex Sans', sans-serif; color: var(--text); cursor: pointer; outline: none; }
         .filter-select:focus { border-color: var(--primary); }
-        .grid-pets {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        .olx-card {
-            background: var(--white);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px var(--shadow);
-            display: flex;
-            flex-direction: column;
-            transition: 0.3s;
-        }
+        .grid-pets { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .olx-card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px var(--shadow); display: flex; flex-direction: column; transition: 0.3s; }
         .olx-card:hover { transform: translateY(-5px); }
-        .olx-img { width: 100%; height: 240px; object-fit: cover; }
+        .olx-img { width: 100%; height: 240px; object-fit: cover; cursor: pointer; }
         .olx-info { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
-        .olx-tag-cidade {
-            background: rgba(46, 125, 50, 0.1);
-            color: var(--secondary);
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            align-self: flex-start;
-            margin-bottom: 10px;
-        }
-        .olx-detalhes {
-            font-size: 0.8rem;
-            color: #666;
-            margin: 10px 0 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5px;
-        }
-        .no-results {
-            text-align: center;
-            grid-column: 1 / -1;
-            padding: 60px 20px;
-            color: #888;
-            font-size: 1.2rem;
-        }
+        .olx-tag-cidade { background: rgba(46, 125, 50, 0.1); color: var(--secondary); padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: bold; align-self: flex-start; margin-bottom: 10px; }
+        .olx-detalhes { font-size: 0.8rem; color: #666; margin: 10px 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+        .no-results { text-align: center; grid-column: 1 / -1; padding: 60px 20px; color: #888; font-size: 1.2rem; }
         .btn-voltar { border-color: var(--primary); background: transparent; color: var(--primary); }
         .btn-voltar:hover { background: var(--primary); color: white; }
 
-        /* Responsividade para o Telemóvel */
         @media (max-width: 768px) {
             .search-filter-section { padding: 15px; margin: 15px; }
             .search-box { flex-direction: column; gap: 10px; }
@@ -114,7 +47,7 @@
         </div>
         <ul class="nav-links">
             <li><a href="index.html" class="nav-item btn-voltar">⬅ Voltar ao Início</a></li>
-            <li><a href="doar.html" class="nav-item nav-btn" target="_blank">Quero Doar</a></li>
+            <li><button onclick="verificarLoginAntesDeDoar()" class="nav-item nav-btn" style="background:transparent; border:none; cursor:pointer;">Quero Doar</button></li>
         </ul>
     </nav>
 </header>
@@ -139,8 +72,7 @@
         </div>
     </section>
 
-    <section class="grid-pets" id="pets-catalogo">
-        </section>
+    <section class="grid-pets" id="pets-catalogo"></section>
 </main>
 
 <footer class="main-footer">
@@ -173,9 +105,7 @@
         lista.forEach(pet => {
             const card = `
                 <article class="olx-card">
-                    <a href="detalhes.html?id=${pet.id}" target="_blank">
-                        <img src="${pet.foto}" class="olx-img" alt="${pet.nome}">
-                    </a>
+                    <img src="${pet.foto}" class="olx-img" alt="${pet.nome}" onclick="irParaDetalhes(${pet.id})">
                     <div class="olx-info">
                         <span class="olx-tag-cidade">📍 ${pet.cidade}</span>
                         <h3 style="font-family: 'Montserrat'; color: var(--primary); margin-bottom: 10px;">${pet.nome.toUpperCase()}</h3>
@@ -185,11 +115,32 @@
                             <p>⚖️ <strong>Peso:</strong> ${pet.peso}</p>
                             <p>✂️ <strong>Castrado:</strong> ${pet.castrado}</p>
                         </div>
-                        <a href="detalhes.html?id=${pet.id}" target="_blank" class="btn-main" style="margin-top:auto; width:100%; text-align:center; text-decoration:none; display:block; line-height:2.5;">Conhecer História</a>
+                        <button onclick="irParaDetalhes(${pet.id})" class="btn-main" style="margin-top:auto; width:100%; border:none; text-align:center; cursor:pointer; padding: 10px 0;">Conhecer História</button>
                     </div>
                 </article>`;
             container.innerHTML += card;
         });
+    }
+
+    // INTERCEPTADOR DE FLUXO: Protege a rota e envia para o login se não possuir a sessão
+    function irParaDetalhes(id) {
+        const logado = localStorage.getItem('dadosTutor');
+        if (!logado) {
+            alert("Acesso restrito!\n\nPara conhecer a história dos animais e iniciar uma triagem de adoção, você precisa fazer login ou se cadastrar primeiro.");
+            window.location.href = "login-tutor.html";
+        } else {
+            window.location.href = `detalhes.html?id=${id}`;
+        }
+    }
+
+    function verificarLoginAntesDeDoar() {
+        const logado = localStorage.getItem('dadosTutor');
+        if (!logado) {
+            alert("Acesso restrito!\n\nPara cadastrar um pet para doação, você precisa acessar sua Conta de Tutor primeiro.");
+            window.location.href = "login-tutor.html";
+        } else {
+            window.location.href = "doar.html";
+        }
     }
 
     function filtrarLocalmente() {
