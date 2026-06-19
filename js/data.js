@@ -55,13 +55,13 @@ const pets = [
         id: 5,
         nome: "Mirtilo",
         especie: "Cachorro",
-        peso: "10kg",
+        peso: "12kg",
         idade: "Adulto",
-        raca: "Siamês",
+        raca: "SRD",
         castrado: "Sim",
         vacinado: "Sim",
         cidade: "Recife",
         foto: "img/mirtilo.jpg",
-        historia: "Mirtilo é atentado, mas muito carinho. Ideal para residências grandes!"
+        historia: "Mirtilo é grudento e apegado, ideal para pessoas carentes."
     }
 ];
